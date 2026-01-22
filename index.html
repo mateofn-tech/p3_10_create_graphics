@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Círculos Interactivos</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+</head>
+<body>
+<script>
+let circleSize = 40; // diámetro del círculo
+let circles = [];    // arreglo para guardar cada círculo
+
+function setup() {
+  createCanvas(400, 400);
+  background(180);
+
+  // Crear círculos en una rejilla y guardar su info
+  for (let y = circleSize/2; y < height; y += circleSize) {
+    for (let x = circleSize/2; x < width; x += circleSize) {
+      circles.push({
+        x: x,
+        y: y,
+        color: color(255) // blanco inicial
+      });
+    }
+  }
+
+  drawCircles();
+}
+
+// Función para dibujar todos los círculos
+function drawCircles() {
+  background(180);
+  for (let c of circles) {
+    fill(c.color);
+    noStroke();
+    circle(c.x, c.y, circleSize);
+  }
+}
+
+// Detectar clic y cambiar el color del círculo clicado
+function mousePressed() {
+  for (let c of circles) {
+    let d = dist(mouseX, mouseY, c.x, c.y);
+    if (d < circleSize / 2) {
+      // Cambiar a un color aleatorio
+      c.color = color(random(255), random(255), random(255));
+      drawCircles(); // redibujar todos
+      break; // cambiar solo un círculo por clic
+    }
+  }
+}
+</script>
+</body>
+</html>
